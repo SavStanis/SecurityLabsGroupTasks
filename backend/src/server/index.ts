@@ -1,8 +1,13 @@
 import { fastify } from 'fastify';
 import { plugin as authRoutes } from '../routes/auth';
 import fastifySwagger from 'fastify-swagger';
+import cors from 'fastify-cors';
 
 export const server = fastify({ logger: true });
+server.register(cors, {
+    origin: '*',
+    methods: ['GET', 'PUT', 'POST']
+});
 server.register(fastifySwagger, {
     routePrefix: '/swagger',
     swagger: {
