@@ -1,6 +1,6 @@
 import { Pool } from 'pg';
 import { User } from '../entities/user';
-import config from './../config';
+import config from '../config';
 
 const pool = new Pool(config.db);
 
