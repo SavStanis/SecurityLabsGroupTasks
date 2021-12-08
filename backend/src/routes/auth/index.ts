@@ -2,14 +2,15 @@ import { FastifyPluginCallback, FastifyReply, FastifyRequest } from 'fastify';
 import { User } from '../../entities/user';
 import * as auth from '../../services/auth';
 import { loginSchema, registerSchema } from './schemas';
+import {UserDto} from "../../dto/user.dto";
 
 type LoginRequest = FastifyRequest<{ Body: User }>
-type RegisterRequest = FastifyRequest<{ Body: User }>;
+type RegisterRequest = FastifyRequest<{ Body: UserDto }>;
 
 const login = async (request: LoginRequest, reply: FastifyReply) => {
-    const loggedIn = await auth.login(request.body);
-    if (loggedIn) {
-        await reply.status(200).send({ ok: true });
+    const user = await auth.login(request.body);
+    if (user) {
+        await reply.status(200).send({ ok: true, user: user });
     } else {
         await reply.status(200).send({ ok: false, errors: ['Invalid username or password'] });
     }
