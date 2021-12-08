@@ -26,8 +26,24 @@ const register = async (request: RegisterRequest, reply: FastifyReply) => {
 };
 
 export const plugin: FastifyPluginCallback = (fastify, options, done) => {
-    fastify.post('/login', { schema: loginSchema }, login);
-    fastify.post('/register', { schema: registerSchema }, register);
+    fastify.post('/login', {
+        schema: loginSchema,
+        config: {
+            rateLimit: {
+                max: 3,
+                timeWindow: '1 minute'
+            }
+        }}, login);
+
+    fastify.post('/register', {
+        schema: registerSchema,
+        config: {
+            rateLimit: {
+                max: 30,
+                timeWindow: '1 minute'
+            }
+        }
+    }, register);
     done();
 };
 
