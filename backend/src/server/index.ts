@@ -3,11 +3,19 @@ import { plugin as authRoutes } from '../routes/auth';
 import fastifySwagger from 'fastify-swagger';
 import cors from 'fastify-cors';
 
+import fastify_rate_limit from "fastify-rate-limit";
+
 export const server = fastify({ logger: true });
 server.register(cors, {
     origin: '*',
     methods: ['GET', 'PUT', 'POST']
 });
+
+server.register(fastify_rate_limit, {
+    global: false,
+    max: 300,
+})
+
 server.register(fastifySwagger, {
     routePrefix: '/swagger',
     swagger: {

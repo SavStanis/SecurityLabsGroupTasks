@@ -3,7 +3,7 @@ import { FastifySchema } from 'fastify';
 export const registerSchema: FastifySchema = {
     body: {
         type: 'object',
-        required: ['login', 'password'],
+        required: ['login', 'password', 'address', 'phone'],
         properties: {
             login: {
                 type: 'string',
@@ -13,7 +13,13 @@ export const registerSchema: FastifySchema = {
             password: {
                 type: 'string',
                 pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$',
-            }
+            },
+            address: {
+                type: 'string',
+            },
+            phone: {
+                type: 'string',
+            },
         }
     }
 };
