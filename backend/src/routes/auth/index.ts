@@ -30,7 +30,7 @@ export const plugin: FastifyPluginCallback = (fastify, options, done) => {
         schema: loginSchema,
         config: {
             rateLimit: {
-                max: 3,
+                max: 20,
                 timeWindow: '1 minute'
             }
         }}, login);
@@ -39,7 +39,7 @@ export const plugin: FastifyPluginCallback = (fastify, options, done) => {
         schema: registerSchema,
         config: {
             rateLimit: {
-                max: 30,
+                max: 50,
                 timeWindow: '1 minute'
             }
         }
