@@ -1,7 +1,7 @@
 import type { LoginUser, RegisterUser } from '$lib/models/user';
 
-const apiUrl = 'http://localhost:8080';
-export const login = (user: LoginUser) => fetch(apiUrl, {
+const apiUrl = 'https://localhost:8080';
+export const login = (user: LoginUser) => fetch(`${apiUrl}/login`, {
     method: 'POST',
     body: JSON.stringify(user),
     headers: {
