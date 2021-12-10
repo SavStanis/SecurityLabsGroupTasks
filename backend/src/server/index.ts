@@ -1,4 +1,4 @@
-import { fastify } from 'fastify';
+import { fastify, FastifyHttpsOptions, FastifyServerOptions } from 'fastify';
 import { plugin as authRoutes } from '../routes/auth';
 import fastifySwagger from 'fastify-swagger';
 import cors from 'fastify-cors';
@@ -7,14 +7,18 @@ import { join } from 'path';
 import config from './../config';
 import fastify_rate_limit from 'fastify-rate-limit';
 
-export const server = fastify({
+const opts: FastifyHttpsOptions<any> | FastifyServerOptions<any> = {
     logger: true,
     https: {
         key: readFileSync(join(__dirname, '..', '..', 'certs', 'key.pem')),
         cert: readFileSync(join(__dirname, '..', '..', 'certs', 'cert.pem')),
         passphrase: config.tls.passphrase,
     }
-});
+};
+if (!config.useHttps) {
+    delete opts.https;
+}
+export const server = fastify(opts);
 server.register(cors, {
     origin: '*',
     methods: ['GET', 'PUT', 'POST']
@@ -23,7 +27,7 @@ server.register(cors, {
 server.register(fastify_rate_limit, {
     global: false,
     max: 300,
-})
+});
 
 server.register(fastifySwagger, {
     routePrefix: '/swagger',
