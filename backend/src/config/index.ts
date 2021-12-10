@@ -6,5 +6,8 @@ export default {
         password: process.env.DATABASE_PASSWORD || '1111',
         host: process.env.DATABASE_HOST || 'localhost',
         database: process.env.DATABASE_NAME || 'sample_auth',
+    },
+    tls: {
+        passphrase: process.env.TLS_PASSPHRARE || '1111',
     }
 };

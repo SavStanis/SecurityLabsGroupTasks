@@ -2,10 +2,19 @@ import { fastify } from 'fastify';
 import { plugin as authRoutes } from '../routes/auth';
 import fastifySwagger from 'fastify-swagger';
 import cors from 'fastify-cors';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import config from './../config';
+import fastify_rate_limit from 'fastify-rate-limit';
 
-import fastify_rate_limit from "fastify-rate-limit";
-
-export const server = fastify({ logger: true });
+export const server = fastify({
+    logger: true,
+    https: {
+        key: readFileSync(join(__dirname, '..', '..', 'certs', 'key.pem')),
+        cert: readFileSync(join(__dirname, '..', '..', 'certs', 'cert.pem')),
+        passphrase: config.tls.passphrase,
+    }
+});
 server.register(cors, {
     origin: '*',
     methods: ['GET', 'PUT', 'POST']
